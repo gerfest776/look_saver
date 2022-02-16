@@ -6,6 +6,8 @@ postgresql_data
 # C extensions
 *.so
 
+media
+
 .idea
 # Distribution / packaging
 .Python
