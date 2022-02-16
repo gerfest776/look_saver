@@ -1,11 +1,10 @@
+import django
+django.setup()
+
 import os
 import sys
 
-from pathlib import Path
-
 from decouple import config, Csv
-
-import api.models
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,9 +19,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
     'drf_yasg',
     'rest_framework',
+    'api',
 ]
 
 AUTH_USER_MODEL = api.User
