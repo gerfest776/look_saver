@@ -1,8 +1,13 @@
 import os
+import sys
+
 from pathlib import Path
 
 from decouple import config, Csv
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+import api.models
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool, default=False)
@@ -15,12 +20,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'look_saver',
-
-    #third-party
+    'api',
     'drf_yasg',
-    'rest_framework'
+    'rest_framework',
 ]
+
+AUTH_USER_MODEL = api.User
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -33,6 +38,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'look_saver.urls'
+
 
 TEMPLATES = [
     {
@@ -51,7 +57,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'look_saver.wsgi.application'
-
 
 DATABASES = {
     'default': {
@@ -81,13 +86,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SWAGGER_SETTINGS = {
-   'SECURITY_DEFINITIONS': {
-      'Bearer': {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
             'type': 'apiKey',
             'name': 'Authorization',
             'in': 'header'
-      }
-   }
+        }
+    }
 }
 
 LANGUAGE_CODE = 'en-us'

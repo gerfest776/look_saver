@@ -1,9 +1,11 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class User(AbstractUser):
-    user_id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 
 class Shoes(models.Model):
@@ -64,11 +66,11 @@ class Accessory(models.Model):
 
 class Look(models.Model):
     look_id = models.AutoField(primary_key=True)
-    accessory_id = models.ForeignKey(Accessory, related_name='look', on_delete=models.SET_NULL)
-    top_id = models.ForeignKey(Top, related_name='look', on_delete=models.SET_NULL)
-    pants_id = models.ForeignKey(Pants, related_name='look', on_delete=models.SET_NULL)
-    shoes_id = models.ForeignKey(Shoes, related_name='look', on_delete=models.SET_NULL)
-    user_id = models.ForeignKey(User, related_name='look', on_delete=models.CASCADE)
+    accessory_id = models.ForeignKey(Accessory, null=True, related_name='look', on_delete=models.SET_NULL)
+    top_id = models.ForeignKey(Top, null=True, related_name='look', on_delete=models.SET_NULL)
+    pants_id = models.ForeignKey(Pants, null=True, related_name='look', on_delete=models.SET_NULL)
+    shoes_id = models.ForeignKey(Shoes, null=True, related_name='look', on_delete=models.SET_NULL)
+    # user_id = models.ForeignKey(User, related_name='look', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'look'
