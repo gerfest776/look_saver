@@ -31,6 +31,6 @@ def get_swagger() -> Any:
 schema_view = get_swagger()
 
 urlpatterns = [
-    path('api/', include('look_collector')),
+    # path('api/', include('look_collector.urls')),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

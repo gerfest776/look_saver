@@ -14,6 +14,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'look_saver',
+
+    #third-party
+    'drf_yasg',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -74,6 +79,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
 
 LANGUAGE_CODE = 'en-us'
 
