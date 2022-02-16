@@ -7,7 +7,6 @@ postgresql_data
 *.so
 
 .idea
-
 # Distribution / packaging
 .Python
 build/
@@ -103,6 +102,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+.env
 .venv
 env/
 venv/
