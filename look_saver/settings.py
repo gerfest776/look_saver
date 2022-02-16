@@ -1,6 +1,3 @@
-import django
-django.setup()
-
 import os
 import sys
 
@@ -19,12 +16,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'drf_yasg',
     'rest_framework',
+    'drf_yasg',
     'api',
 ]
-
-AUTH_USER_MODEL = api.User
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -38,6 +33,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'look_saver.urls'
 
+AUTH_USER_MODEL = 'api.User'
 
 TEMPLATES = [
     {
@@ -69,6 +65,17 @@ DATABASES = {
     }
 }
 
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -84,15 +91,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        }
-    }
-}
 
 LANGUAGE_CODE = 'en-us'
 
