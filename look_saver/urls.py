@@ -11,7 +11,7 @@ from drf_yasg.views import get_schema_view
 class APISchemeGenerator(OpenAPISchemaGenerator):
     def get_schema(self, request=None, public=False):
         schema = super().get_schema(request, public)
-        schema.schemes = [f'http', f'https']
+        schema.schemes = ['http', 'https']
         return schema
 
 
