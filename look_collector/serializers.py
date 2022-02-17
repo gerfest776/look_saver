@@ -19,15 +19,14 @@ class LookImportSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         all_outfits = []
-
         with transaction.atomic():
-            current_outfit = Outfit.objects.create()
+            current_outfit = Outfit.objects.create(owner_id=self.context['request'].user.id)
 
             for outfit_detail in validated_data['look']:
                 all_outfits.append(OutfitItems(**outfit_detail))
             OutfitItems.objects.bulk_create(all_outfits)
 
-            # return current_outfit
+            return current_outfit
 
 
     def to_representation(self, instance):
