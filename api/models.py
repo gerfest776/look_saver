@@ -18,39 +18,39 @@ class User(AbstractUser):
 
 
 class Shoes(General):
-    image = models.ImageField(upload_to='shoes_media')
+    image = models.ImageField(upload_to="shoes_media")
 
     class Meta:
-        db_table = 'shoes'
+        db_table = "shoes"
 
 
 class Pants(General):
-    image = models.ImageField(upload_to='pants_media')
+    image = models.ImageField(upload_to="pants_media")
 
     class Meta:
-        db_table = 'pants'
+        db_table = "pants"
 
 
 class Top(General):
-    image = models.ImageField(upload_to='top_media')
+    image = models.ImageField(upload_to="top_media")
 
     class Meta:
-        db_table = 'top'
+        db_table = "top"
 
 
 class Accessory(General):
-    image = models.ImageField(upload_to='accessory_media')
+    image = models.ImageField(upload_to="accessory_media")
 
     class Meta:
-        db_table = 'accessory'
+        db_table = "accessory"
 
 
 class Look(models.Model):
-    accessory_id = models.ForeignKey(Accessory, null=True, related_name='look', on_delete=models.SET_NULL)
-    top_id = models.ForeignKey(Top, null=True, related_name='look', on_delete=models.SET_NULL)
-    pants_id = models.ForeignKey(Pants, null=True, related_name='look', on_delete=models.SET_NULL)
-    shoes_id = models.ForeignKey(Shoes, null=True, related_name='look', on_delete=models.SET_NULL)
-    user_id = models.ForeignKey(User, related_name='look', on_delete=models.CASCADE)
+    accessory_id = models.ForeignKey(Accessory, null=True, related_name="look", on_delete=models.SET_NULL)
+    top_id = models.ForeignKey(Top, null=True, related_name="look", on_delete=models.SET_NULL)
+    pants_id = models.ForeignKey(Pants, null=True, related_name="look", on_delete=models.SET_NULL)
+    shoes_id = models.ForeignKey(Shoes, null=True, related_name="look", on_delete=models.SET_NULL)
+    owner = models.ForeignKey(User, related_name="look", on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'look'
+        db_table = "look"

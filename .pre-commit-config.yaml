@@ -49,12 +49,6 @@ repos:
     #         # S101 Use of assert detected
     #     ]
 
-    - id: pyupgrade
-      name: pyupgrade
-      entry: pyupgrade
-      language: system
-      types: [python]
-      args: [--py37-plus]
 
     - id: reorder-python-imports
       name: reorder-python-imports
