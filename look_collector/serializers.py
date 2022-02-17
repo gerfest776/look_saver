@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import Look, LookItem
+from look_collector.models import Look, LookItem
 
 
 class LookItemSerialize(serializers.ModelSerializer):

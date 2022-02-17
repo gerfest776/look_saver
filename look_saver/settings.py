@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
-    'api',
+    'look_collector',
 ]
 
 MIDDLEWARE = [
@@ -33,7 +33,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'look_saver.urls'
 
-AUTH_USER_MODEL = 'api.User'
+AUTH_USER_MODEL = 'look_collector.User'
 
 TEMPLATES = [
     {
