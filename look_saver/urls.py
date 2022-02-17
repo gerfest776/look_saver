@@ -2,7 +2,6 @@ from typing import Any
 
 from django.contrib import admin
 from django.urls import path, re_path, include
-
 from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
 from drf_yasg.views import get_schema_view
@@ -31,7 +30,11 @@ def get_swagger() -> Any:
 schema_view = get_swagger()
 
 urlpatterns = [
-    path("api/", include("look_collector.urls")),
     path("admin/", admin.site.urls),
-    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path(r'api/', include('look_collector.urls')),
+    re_path(
+        r"^swagger/$",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
 ]

@@ -1,17 +1,19 @@
 from rest_framework import serializers
 
-from look_collector.models import Look, LookItem
+from look_collector.models import Outfit, OutfitItems
 
 
 class LookItemSerialize(serializers.ModelSerializer):
     class Meta:
-        model = LookItem
-        fields = '__all__'
+        model = OutfitItems
+        exclude = ['look_id']
 
 
 class LookImportSerializer(serializers.ModelSerializer):
-    look = LookItemSerialize(many=True, write_only=True)
+    look = LookItemSerialize(many=True)
 
     class Meta:
-        model = Look
-        fields = '__all__'
+        model = Outfit
+        fields = ['look']
+
+    def to_representation(self, instance):
