@@ -46,4 +46,39 @@ class OutfitSerializer(serializers.ModelSerializer):
         fields = ['id']
 
 
+class PartialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OutfitItem
+        fields = [
+            'type',
+            'brand',
+            'price',
+            'size',
+            'color',
+            'link',
+            'image'
+        ]
+
+        extra_kwargs = {
+            "type": {"required": False},
+            "brand": {"required": False},
+            "price": {"required": False},
+            "size": {"required": False},
+            "color": {"required": False},
+            "link": {"required": False},
+            "image": {"required": False},
+        }
+
+    def update(self, obj, validated_data):
+        obj = obj.look.filter(id=self.context['view'].kwargs['cloth_id']).first()
+        for attr, value in validated_data.items():
+            setattr(obj, attr, value)
+        obj.save()
+        return obj
+
+
+class RetrieveSerializer(serializers.ModelSerializer):
+
+    class Meta:
 
