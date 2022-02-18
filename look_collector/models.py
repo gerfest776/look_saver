@@ -21,14 +21,6 @@ class Image(models.Model):
         db_table = 'image'
 
 
-class Outfit(models.Model):
-    """Model with look"""
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = "outfit"
-
-
 class OutfitItem(models.Model):
     """Model with look_item"""
     class Items(enum.Enum):
@@ -48,8 +40,16 @@ class OutfitItem(models.Model):
     color = models.CharField(max_length=15)
     link = models.CharField(max_length=150)
     image = models.ForeignKey(Image, null=True, on_delete=models.SET_NULL, related_name='look_item')
-    look_id = models.ManyToManyField(Outfit, related_name='look')
 
     class Meta:
         db_table = 'outfit_item'
+
+
+class Outfit(models.Model):
+    """Model with look"""
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    look_id = models.ManyToManyField(OutfitItem, related_name='outfit')
+
+    class Meta:
+        db_table = "outfit"
 

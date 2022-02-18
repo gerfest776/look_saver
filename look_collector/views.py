@@ -6,7 +6,8 @@ from rest_framework.viewsets import GenericViewSet
 
 from look_collector.models import Outfit, OutfitItem, User
 from look_collector.pagination import Pagination
-from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer, RetrieveSerializer
+from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer, RetrieveSerializer, \
+    DestroySerializer
 
 
 class LookView(CreateModelMixin,
@@ -15,6 +16,7 @@ class LookView(CreateModelMixin,
                UpdateModelMixin,
                DestroyModelMixin,
                GenericViewSet):
+
     queryset = Outfit.objects.all()
     serializer_class = LookImportSerializer
     lookup_field = 'id'
@@ -23,8 +25,11 @@ class LookView(CreateModelMixin,
     def get_queryset(self):
         pass
         if self.action == 'my_outfits':
-            objs = Outfit.objects.filter(owner_id=self.request.user.id)
-            return objs
+            qs = Outfit.objects.filter(owner_id=self.request.user.id)
+            return qs
+        # elif self.action == 'outfits_destroy':
+        #     qs = Outfit.look_id.all()
+        #     return qs
         else:
             return self.queryset
 
@@ -35,6 +40,8 @@ class LookView(CreateModelMixin,
             return PartialSerializer
         elif self.action == 'outfits_retrieve':
             return RetrieveSerializer
+        # elif self.action == 'outfits_destroy':
+        #     return DestroySerializer
         else:
             return self.serializer_class
 
@@ -52,5 +59,6 @@ class LookView(CreateModelMixin,
 
     @action(methods=['destroy'], detail=True, url_path='del_outfits')
     def outfits_destroy(self, request, id):
-        return self.destroy(request)
-
+        qs = Outfit.look_id.all()
+        serializer = DestroySerializer(qs, many=True)
+        print(1)

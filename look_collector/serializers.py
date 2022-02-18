@@ -4,14 +4,14 @@ from rest_framework import serializers
 from look_collector.models import Outfit, OutfitItem
 
 
-class LookItemSerialize(serializers.ModelSerializer):
+class LookItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OutfitItem
-        exclude = ['look_id']
+        fields = '__all__'
 
 
 class LookImportSerializer(serializers.ModelSerializer):
-    outfit = LookItemSerialize(many=True, write_only=True)
+    outfit = LookItemSerializer(many=True, write_only=True)
 
     class Meta:
         model = Outfit
@@ -24,7 +24,7 @@ class LookImportSerializer(serializers.ModelSerializer):
             [OutfitItem(**outfit_detail) for outfit_detail in validated_data['outfit']]
         )
 
-        current_outfit.look.set(cloth.id for cloth in result)
+        current_outfit.look_id.set(cloth.id for cloth in result)
         return current_outfit
 
     def to_representation(self, instance):
@@ -33,25 +33,12 @@ class LookImportSerializer(serializers.ModelSerializer):
         return representation
 
 
-class UpOutfitSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OutfitItem
-        fields = '__all__'
-
-
 class OutfitSerializer(serializers.ModelSerializer):
-    look_item = UpOutfitSerializer(many=True, read_only=True)
+    look_id = LookItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = Outfit
         fields = '__all__'
-
-    # def get_outfit(self, obj):
-    #     obj = obj.look.all()
-    #     new_list = []
-    #     new_obj = UpOutfitSerializer(obj, many=True).data
-    #     new_list.append(new_obj)
-    #     return new_list
 
 
 class PartialSerializer(serializers.ModelSerializer):
@@ -78,17 +65,11 @@ class PartialSerializer(serializers.ModelSerializer):
         }
 
     def update(self, obj, validated_data):
-        obj = obj.look.filter(id=self.context['view'].kwargs['cloth_id']).first()
+        obj = obj.look_id.filter(id=self.context['view'].kwargs['cloth_id']).first()
         for attr, value in validated_data.items():
             setattr(obj, attr, value)
         obj.save()
         return obj
-
-
-class UpRetrieveSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OutfitItem
-        exclude = ['look_id']
 
 
 class RetrieveSerializer(serializers.ModelSerializer):
@@ -99,5 +80,13 @@ class RetrieveSerializer(serializers.ModelSerializer):
         fields = ['my_outfit']
 
     def get_my_outfit(self, obj):
-        obj = obj.look.all()
-        return UpRetrieveSerializer(obj, many=True).data
+        obj = obj.look_id.all()
+        return LookItemSerializer(obj, many=True).data
+
+
+class DestroySerializer(serializers.ModelSerializer):
+    id = LookItemSerializer(many=True)
+
+    class Meta:
+        model = Outfit
+        fields = ['id']
