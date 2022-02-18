@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
 from look_collector.models import Outfit, OutfitItem, User
-from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer
+from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer, RetrieveSerializer
 
 
 class LookView(CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
@@ -26,7 +26,7 @@ class LookView(CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModel
         elif self.action == 'outfits_partial':
             return PartialSerializer
         elif self.action == 'outfits_retrieve':
-            return
+            return RetrieveSerializer
         else:
             return self.serializer_class
 
@@ -40,5 +40,5 @@ class LookView(CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModel
 
     @action(methods=['get'], detail=True, url_path='my_outfits/')
     def outfits_retrieve(self, request, id):
-        return self.retrieve()
+        return self.retrieve(request)
 

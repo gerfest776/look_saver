@@ -78,7 +78,20 @@ class PartialSerializer(serializers.ModelSerializer):
         return obj
 
 
-class RetrieveSerializer(serializers.ModelSerializer):
+class UpRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
+        model = OutfitItem
+        exclude = ['look_id']
 
+
+class RetrieveSerializer(serializers.ModelSerializer):
+    my_outfit = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Outfit
+        fields = ['my_outfit']
+
+    def get_my_outfit(self, obj):
+        obj = obj.look.all()
+        return UpRetrieveSerializer(obj, many=True).data
