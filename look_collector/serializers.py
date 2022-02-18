@@ -1,12 +1,12 @@
 from django.db import transaction
 from rest_framework import serializers
 
-from look_collector.models import Outfit, OutfitItems
+from look_collector.models import Outfit, OutfitItem
 
 
 class LookItemSerialize(serializers.ModelSerializer):
     class Meta:
-        model = OutfitItems
+        model = OutfitItem
         exclude = ['look_id']
 
 
@@ -23,8 +23,9 @@ class LookImportSerializer(serializers.ModelSerializer):
             current_outfit = Outfit.objects.create(owner_id=self.context['request'].user.id)
 
             for outfit_detail in validated_data['look']:
-                all_outfits.append(OutfitItems(**outfit_detail))
-            OutfitItems.objects.bulk_create(all_outfits)
+                all_outfits.append(OutfitItem(**outfit_detail))
+            OutfitItem.objects.bulk_create(all_outfits)
+            current_outfit.look.set(all_outfits)
 
             return current_outfit
 

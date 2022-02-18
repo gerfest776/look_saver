@@ -29,7 +29,7 @@ class Outfit(models.Model):
         db_table = "outfit"
 
 
-class OutfitItems(models.Model):
+class OutfitItem(models.Model):
     """Model with look_item"""
     class Items(enum.Enum):
         pants = 'Штаны'
@@ -52,5 +52,4 @@ class OutfitItems(models.Model):
 
     class Meta:
         db_table = 'outfit_item'
-
 
