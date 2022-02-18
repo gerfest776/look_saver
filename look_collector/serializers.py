@@ -36,25 +36,25 @@ class LookImportSerializer(serializers.ModelSerializer):
 class UpOutfitSerializer(serializers.ModelSerializer):
     class Meta:
         model = OutfitItem
-        exclude = ['look_id']
+        fields = '__all__'
 
 
 class OutfitSerializer(serializers.ModelSerializer):
-    outfit = serializers.SerializerMethodField()
+    look_item = UpOutfitSerializer(many=True, read_only=True)
 
     class Meta:
         model = Outfit
-        fields = ['outfit']
+        fields = '__all__'
 
-    def get_outfit(self, obj):
-        obj = obj.look.all()
-        new_list = []
-        new_obj = UpOutfitSerializer(obj, many=True).data
-        new_list.append(new_obj)
-        return new_list
+    # def get_outfit(self, obj):
+    #     obj = obj.look.all()
+    #     new_list = []
+    #     new_obj = UpOutfitSerializer(obj, many=True).data
+    #     new_list.append(new_obj)
+    #     return new_list
+
 
 class PartialSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = OutfitItem
         fields = [
@@ -86,7 +86,6 @@ class PartialSerializer(serializers.ModelSerializer):
 
 
 class UpRetrieveSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = OutfitItem
         exclude = ['look_id']

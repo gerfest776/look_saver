@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
 from look_collector.models import Outfit, OutfitItem, User
+from look_collector.pagination import Pagination
 from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer, RetrieveSerializer
 
 
@@ -17,11 +18,12 @@ class LookView(CreateModelMixin,
     queryset = Outfit.objects.all()
     serializer_class = LookImportSerializer
     lookup_field = 'id'
+    pagination_class = Pagination
 
     def get_queryset(self):
         pass
         if self.action == 'my_outfits':
-            objs = Outfit.objects.filter(owner_id = self.kwargs['owner_id'])
+            objs = Outfit.objects.filter(owner_id=self.request.user.id)
             return objs
         else:
             return self.queryset
@@ -36,8 +38,8 @@ class LookView(CreateModelMixin,
         else:
             return self.serializer_class
 
-    @action(methods=['get'], detail=False, url_path='my_outfits/(?P<owner_id>[^/.]+)')
-    def my_outfits(self, request, owner_id):
+    @action(methods=['get'], detail=False, url_path='my_outfits')
+    def my_outfits(self, request):
         return self.list(request)
 
     @action(methods=['patch'], detail=True, url_path='my_outfits/(?P<cloth_id>[^/.]+)')
