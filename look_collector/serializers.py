@@ -31,3 +31,19 @@ class LookImportSerializer(serializers.ModelSerializer):
         representation = super(LookImportSerializer, self).to_representation(instance)
         representation['outfit'] = {"outfit_id": instance.id}
         return representation
+
+
+class UpOutfitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OutfitItem
+        exclude = ['look_id']
+
+
+class OutfitSerializer(serializers.ModelSerializer):
+    # look_id = serializers.PrimaryKeyRelatedField()
+    class Meta:
+        model = Outfit
+        fields = ['id']
+
+
+
