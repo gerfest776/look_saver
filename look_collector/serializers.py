@@ -11,27 +11,23 @@ class LookItemSerialize(serializers.ModelSerializer):
 
 
 class LookImportSerializer(serializers.ModelSerializer):
-    look = LookItemSerialize(many=True)
+    outfit = LookItemSerialize(many=True, write_only=True)
 
     class Meta:
         model = Outfit
-        fields = ['look']
+        fields = ['outfit']
 
     def create(self, validated_data):
-        all_outfits = []
-        with transaction.atomic():
-            current_outfit = Outfit.objects.create(owner_id=self.context['request'].user.id)
+        current_outfit = Outfit.objects.create(owner_id=self.context['request'].user.id)
 
-            for outfit_detail in validated_data['look']:
-                all_outfits.append(OutfitItem(**outfit_detail))
-            OutfitItem.objects.bulk_create(all_outfits)
-            current_outfit.look.set(all_outfits)
+        result = OutfitItem.objects.bulk_create(
+            [OutfitItem(**outfit_detail) for outfit_detail in validated_data['outfit']]
+        )
 
-            return current_outfit
-
+        current_outfit.look.set(cloth.id for cloth in result)
+        return current_outfit
 
     def to_representation(self, instance):
         representation = super(LookImportSerializer, self).to_representation(instance)
-        representation['look'] = LookImportSerializer(instance.look.all(), many=True).data
+        representation['outfit'] = {"outfit_id": instance.id}
         return representation
-
