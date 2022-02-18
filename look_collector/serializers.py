@@ -40,11 +40,18 @@ class UpOutfitSerializer(serializers.ModelSerializer):
 
 
 class OutfitSerializer(serializers.ModelSerializer):
-    # look_id = serializers.PrimaryKeyRelatedField()
+    outfit = serializers.SerializerMethodField()
+
     class Meta:
         model = Outfit
-        fields = ['id']
+        fields = ['outfit']
 
+    def get_outfit(self, obj):
+        obj = obj.look.all()
+        new_list = []
+        new_obj = UpOutfitSerializer(obj, many=True).data
+        new_list.append(new_obj)
+        return new_list
 
 class PartialSerializer(serializers.ModelSerializer):
 

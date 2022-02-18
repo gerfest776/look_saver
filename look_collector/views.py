@@ -1,5 +1,6 @@
 from rest_framework.decorators import action
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin, UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin, UpdateModelMixin, \
+    DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
@@ -7,15 +8,20 @@ from look_collector.models import Outfit, OutfitItem, User
 from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer, RetrieveSerializer
 
 
-class LookView(CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+class LookView(CreateModelMixin,
+               ListModelMixin,
+               RetrieveModelMixin,
+               UpdateModelMixin,
+               DestroyModelMixin,
+               GenericViewSet):
     queryset = Outfit.objects.all()
     serializer_class = LookImportSerializer
     lookup_field = 'id'
 
     def get_queryset(self):
+        pass
         if self.action == 'my_outfits':
-            objs = Outfit.objects.select_related('owner').\
-                filter(owner_id=self.kwargs['id'])
+            objs = Outfit.objects.filter(owner_id = self.kwargs['owner_id'])
             return objs
         else:
             return self.queryset
@@ -41,4 +47,8 @@ class LookView(CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModel
     @action(methods=['get'], detail=True, url_path='my_outfits/')
     def outfits_retrieve(self, request, id):
         return self.retrieve(request)
+
+    @action(methods=['destroy'], detail=True, url_path='del_outfits')
+    def outfits_destroy(self, request, id):
+        return self.destroy(request)
 
