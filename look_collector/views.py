@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -7,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from look_collector.filters import OutfitItemFilter
 from look_collector.models import Outfit, OutfitItem, User
 from look_collector.pagination import Pagination
 from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer, RetrieveSerializer
@@ -22,6 +24,8 @@ class LookView(CreateModelMixin,
     serializer_class = LookImportSerializer
     lookup_field = 'id'
     pagination_class = Pagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = OutfitItemFilter
 
     def get_queryset(self):
         pass
@@ -59,7 +63,7 @@ class LookView(CreateModelMixin,
         instance = self.get_object().look_id.all()
         self.perform_destroy(instance)
         self.perform_destroy(obj)
-пше        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(methods=['delete'], detail=True, url_path='del_outfits/(?P<cloth_id>[^/.]+)')
     def outfits_destroy(self, request, id, cloth_id):
