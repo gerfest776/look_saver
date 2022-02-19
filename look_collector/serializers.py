@@ -1,12 +1,12 @@
 from django.db import transaction
 from rest_framework import serializers
 
-from image_test.models import Image
+from image.models import Image
 from look_collector.models import Outfit, OutfitItem
 
 
 class LookItemSerializer(serializers.ModelSerializer):
-    image_id = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all())
+    # image_id = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all())
 
     class Meta:
         model = OutfitItem
@@ -54,7 +54,7 @@ class PartialSerializer(serializers.ModelSerializer):
             'size',
             'color',
             'link',
-            'image_test'
+            'image_id'
         ]
 
         extra_kwargs = {
@@ -64,7 +64,7 @@ class PartialSerializer(serializers.ModelSerializer):
             "size": {"required": False},
             "color": {"required": False},
             "link": {"required": False},
-            "image_test": {"required": False},
+            "image_id": {"required": False},
         }
 
     def update(self, obj, validated_data):
@@ -76,8 +76,9 @@ class PartialSerializer(serializers.ModelSerializer):
 
 
 class RetrieveSerializer(serializers.ModelSerializer):
-    my_outfit = LookItemSerializer(read_only=True)
+    look_id = LookItemSerializer(many=True, read_only=True)
+    outfit = look_id
 
     class Meta:
         model = Outfit
-        fields = ['my_outfit']
+        fields = ['id', 'look_id', 'outfit']

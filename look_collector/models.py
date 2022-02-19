@@ -4,7 +4,7 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from image_test.models import Image
+from image.models import Image
 
 
 class User(AbstractUser):
@@ -42,7 +42,7 @@ class OutfitItem(models.Model):
 class Outfit(models.Model):
     """Model with look"""
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    look_id = models.ManyToManyField(OutfitItem, related_name='outfit')
+    look_id = models.ManyToManyField(OutfitItem, null=True, related_name='outfit')
 
     class Meta:
         db_table = "outfit"

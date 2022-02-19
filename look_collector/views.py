@@ -1,7 +1,10 @@
+from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin, UpdateModelMixin, \
     DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from look_collector.models import Outfit, OutfitItem, User
@@ -25,9 +28,6 @@ class LookView(CreateModelMixin,
         if self.action == 'my_outfits':
             qs = Outfit.objects.filter(owner_id=self.request.user.id)
             return qs
-        # elif self.action == 'outfits_destroy':
-        #     qs = Outfit.look_id.all()
-        #     return qs
         else:
             return self.queryset
 
@@ -38,8 +38,6 @@ class LookView(CreateModelMixin,
             return PartialSerializer
         elif self.action == 'outfits_retrieve':
             return RetrieveSerializer
-        # elif self.action == 'outfits_destroy':
-        #     return DestroySerializer
         else:
             return self.serializer_class
 
@@ -55,8 +53,17 @@ class LookView(CreateModelMixin,
     def outfits_retrieve(self, request, id):
         return self.retrieve(request)
 
-    @action(methods=['destroy'], detail=True, url_path='del_outfits')
-    def outfits_destroy(self, request, id):
-        qs = Outfit.look_id.all()
-        serializer = DestroySerializer(qs, many=True)
-        print(1)
+    @action(methods=['delete'], detail=True, url_path='del_outfits')
+    def all_outfit_destroy(self, request, id):
+        obj = self.get_object()
+        instance = self.get_object().look_id.all()
+        self.perform_destroy(instance)
+        self.perform_destroy(obj)
+пше        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(methods=['delete'], detail=True, url_path='del_outfits/(?P<cloth_id>[^/.]+)')
+    def outfits_destroy(self, request, id, cloth_id):
+        instance = self.get_object().look_id.filter(id=cloth_id).first()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+

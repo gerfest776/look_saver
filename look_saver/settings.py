@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'look_collector',
-    'image_test'
+    'image'
 
 ]
 
