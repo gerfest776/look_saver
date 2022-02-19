@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+
+class Image(models.Model):
+    """Model which contains cloth image"""
+    image = models.ImageField(upload_to='media')
+

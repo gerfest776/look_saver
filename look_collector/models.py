@@ -4,6 +4,8 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from image.models import Image
+
 
 class User(AbstractUser):
     """Basic  user auth model"""
@@ -11,11 +13,6 @@ class User(AbstractUser):
 
     class Meta:
         db_table = 'user'
-
-
-class Image(models.Model):
-    """Model which contains cloth image"""
-    image = models.ImageField(upload_to='media')
 
 
 class OutfitItem(models.Model):
