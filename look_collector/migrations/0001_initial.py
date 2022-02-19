@@ -46,10 +46,10 @@ class Migration(migrations.Migration):
             name='Image',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to='media')),
+                ('images', models.ImageField(upload_to='media')),
             ],
             options={
-                'db_table': 'image',
+                'db_table': 'images',
             },
         ),
         migrations.CreateModel(
@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
                 ('size', models.CharField(max_length=5)),
                 ('color', models.CharField(max_length=15)),
                 ('link', models.CharField(max_length=150)),
-                ('image', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='look_item', to='look_collector.image')),
+                ('images', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='look_item', to='look_collector.images')),
             ],
             options={
                 'db_table': 'outfit_item',

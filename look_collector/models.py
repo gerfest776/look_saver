@@ -14,11 +14,11 @@ class User(AbstractUser):
 
 
 class Image(models.Model):
-    """Model which contains cloth image"""
+    """Model which contains cloth images"""
     image = models.ImageField(upload_to='media')
 
     class Meta:
-        db_table = 'image'
+        db_table = 'images'
 
 
 class OutfitItem(models.Model):
