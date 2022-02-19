@@ -51,7 +51,7 @@ class PartialSerializer(serializers.ModelSerializer):
             'size',
             'color',
             'link',
-            'images'
+            'image'
         ]
 
         extra_kwargs = {
@@ -61,7 +61,7 @@ class PartialSerializer(serializers.ModelSerializer):
             "size": {"required": False},
             "color": {"required": False},
             "link": {"required": False},
-            "images": {"required": False},
+            "image": {"required": False},
         }
 
     def update(self, obj, validated_data):

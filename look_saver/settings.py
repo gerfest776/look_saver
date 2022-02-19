@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'look_collector',
     'widget_tweaks',
-    'images'
+    'image'
 
 ]
 

@@ -32,7 +32,7 @@ schema_view = get_swagger()
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(r'api/', include('look_collector.urls')),
-    path(r'api/', include('images.urls')),
+    path(r'api/', include('image.urls')),
     re_path(
         r"^swagger/$",
         schema_view.with_ui("swagger", cache_timeout=0),

@@ -2,10 +2,10 @@ from django.urls import path
 
 from rest_framework.routers import DefaultRouter
 
-from images import views
+from image import views
 
 router = DefaultRouter(trailing_slash=False)
-router.register("images", views.ImageView)
+router.register("image_upload", views.ImageView)
 
 
 urlpatterns = [

@@ -14,11 +14,8 @@ class User(AbstractUser):
 
 
 class Image(models.Model):
-    """Model which contains cloth images"""
+    """Model which contains cloth image"""
     image = models.ImageField(upload_to='media')
-
-    class Meta:
-        db_table = 'images'
 
 
 class OutfitItem(models.Model):
@@ -39,7 +36,7 @@ class OutfitItem(models.Model):
     size = models.CharField(max_length=5)
     color = models.CharField(max_length=15)
     link = models.CharField(max_length=150)
-    image = models.ForeignKey(Image, null=True, on_delete=models.SET_NULL, related_name='look_item')
+    image_id = models.ForeignKey(Image, null=True, on_delete=models.SET_NULL, related_name='look_item')
 
     class Meta:
         db_table = 'outfit_item'
