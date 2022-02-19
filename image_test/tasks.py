@@ -16,7 +16,7 @@ def image_processing(instance):
     thumbnail.seek(0)
 
     instance.image = InMemoryUploadedFile(thumbnail, 'ImageField', "%s.png" % pic_name.split('.')[0],
-                                          'image/jpeg', thumbnail.tell(), None)
+                                          'image_test/jpeg', thumbnail.tell(), None)
     instance.save()
 
 

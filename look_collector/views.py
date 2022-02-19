@@ -6,8 +6,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from look_collector.models import Outfit, OutfitItem, User
 from look_collector.pagination import Pagination
-from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer, RetrieveSerializer, \
-    DestroySerializer
+from look_collector.serializers import LookImportSerializer, OutfitSerializer, PartialSerializer, RetrieveSerializer
 
 
 class LookView(CreateModelMixin,
@@ -16,7 +15,6 @@ class LookView(CreateModelMixin,
                UpdateModelMixin,
                DestroyModelMixin,
                GenericViewSet):
-
     queryset = Outfit.objects.all()
     serializer_class = LookImportSerializer
     lookup_field = 'id'

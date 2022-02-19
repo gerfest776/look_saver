@@ -1,10 +1,13 @@
 from django.db import transaction
 from rest_framework import serializers
 
+from image_test.models import Image
 from look_collector.models import Outfit, OutfitItem
 
 
 class LookItemSerializer(serializers.ModelSerializer):
+    image_id = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all())
+
     class Meta:
         model = OutfitItem
         fields = '__all__'
@@ -51,7 +54,7 @@ class PartialSerializer(serializers.ModelSerializer):
             'size',
             'color',
             'link',
-            'image'
+            'image_test'
         ]
 
         extra_kwargs = {
@@ -61,7 +64,7 @@ class PartialSerializer(serializers.ModelSerializer):
             "size": {"required": False},
             "color": {"required": False},
             "link": {"required": False},
-            "image": {"required": False},
+            "image_test": {"required": False},
         }
 
     def update(self, obj, validated_data):
@@ -73,20 +76,8 @@ class PartialSerializer(serializers.ModelSerializer):
 
 
 class RetrieveSerializer(serializers.ModelSerializer):
-    my_outfit = serializers.SerializerMethodField(read_only=True)
+    my_outfit = LookItemSerializer(read_only=True)
 
     class Meta:
         model = Outfit
         fields = ['my_outfit']
-
-    def get_my_outfit(self, obj):
-        obj = obj.look_id.all()
-        return LookItemSerializer(obj, many=True).data
-
-
-class DestroySerializer(serializers.ModelSerializer):
-    id = LookItemSerializer(many=True)
-
-    class Meta:
-        model = Outfit
-        fields = ['id']

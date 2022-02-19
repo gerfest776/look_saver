@@ -4,7 +4,7 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from image.models import Image
+from image_test.models import Image
 
 
 class User(AbstractUser):

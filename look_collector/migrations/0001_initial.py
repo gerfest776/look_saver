@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('image', '0001_initial'),
+        ('image_test', '0001_initial'),
         ('auth', '0012_alter_user_first_name_max_length'),
     ]
 
@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('size', models.CharField(max_length=5)),
                 ('color', models.CharField(max_length=15)),
                 ('link', models.CharField(max_length=150)),
-                ('image_id', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='look_item', to='image.image')),
+                ('image_id', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='look_item', to='image_test.image_test')),
             ],
             options={
                 'db_table': 'outfit_item',
