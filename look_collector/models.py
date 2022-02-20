@@ -51,3 +51,6 @@ class Outfit(models.Model):
 
     class Meta:
         db_table = "outfit"
+
+
+# searchfield

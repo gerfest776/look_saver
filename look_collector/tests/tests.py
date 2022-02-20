@@ -2,8 +2,7 @@ import null as null
 from django.urls import reverse
 from psycopg2.sql import NULL
 from rest_framework import status
-from rest_framework.test import APITestCase
-from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIRequestFactory, APITestCase
 
 from look_collector.models import Outfit, OutfitItem, User
 
@@ -13,7 +12,7 @@ class TestApi(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.my_admin = User.objects.create_superuser('admin', '', 'admin')
+        cls.my_admin = User.objects.create_superuser("admin", "", "admin")
 
         cls.post_data = {
             "outfit": [

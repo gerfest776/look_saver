@@ -36,7 +36,7 @@ class LookView(
     GenericViewSet,
 ):
     queryset = Outfit.objects.all()
-    lookup_field = 'id'
+    lookup_field = "id"
     serializer_class = LookImportSerializer
     pagination_class = Pagination
 
@@ -48,23 +48,6 @@ class LookView(
         if self.action == "my_outfits":
             qs = Outfit.objects.filter(owner_id=self.request.user.id)
             return qs
-
-        if self.destroy:
-            if str(self.request.query_params.dict().keys()) in [
-                "dict_keys(['pants'])",
-                "dict_keys(['shoes'])",
-                "dict_keys(['top'])",
-                "dict_keys(['accessory'])"
-            ]:
-                params = int(''.join(list(self.request.query_params.dict().values())))
-                qs = Outfit.objects.filter(id=self.kwargs['id']).first().look_id.filter(id=params).first()
-                return qs
-
-            elif not self.request.query_params.dict():
-                qs = Outfit.objects.filter(id=self.kwargs['id']).first()
-                return qs
-            else:
-                return '2'
         else:
             return self.queryset
 
@@ -91,6 +74,21 @@ class LookView(
         return self.retrieve(request)
 
     def destroy(self, request, *args, **kwargs):
-        qs = self.get_queryset()
-        self.perform_destroy(qs)
-        return Response('Successful delete', status=status.HTTP_204_NO_CONTENT)
+        query_params = self.request.query_params.dict()
+        obj = self.get_object()
+        if not query_params:
+            obj.look_id.clear()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            for param in query_params.keys():
+                for outfit_items in OutfitItem.Items.to_choices():
+                    if param in outfit_items:
+                        param = int(query_params[param])
+                        obj.look_id.remove(param)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+        # qs = self.get_queryset()
+        # self.perform_destroy(qs)
+        # return Response("Successful delete", status=status.HTTP_204_NO_CONTENT)

@@ -1,8 +1,7 @@
 import base64
 import io
-from io import BytesIO
 from base64 import b64decode
-
+from io import BytesIO
 
 from django.core.files.uploadhandler import InMemoryUploadedFile
 from PIL import Image as Im
@@ -18,8 +17,7 @@ def image_processing(instance, inmemobj, *args, **kwargs):
     pic_object = Im.open(instance.image)
 
     thumbnail = BytesIO()
-    pic_object.convert("RGBA").save(thumbnail, optimize=True,
-                                    quality=50, format="PNG")
+    pic_object.convert("RGBA").save(thumbnail, optimize=True, quality=50, format="PNG")
     thumbnail.seek(0)
 
     instance.image = InMemoryUploadedFile(
@@ -31,5 +29,3 @@ def image_processing(instance, inmemobj, *args, **kwargs):
         None,
     )
     instance.save()
-
-
