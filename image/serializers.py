@@ -1,3 +1,7 @@
+import json
+
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.serializers.json import DjangoJSONEncoder
 from rest_framework import serializers
 
 from image.tasks import image_processing
@@ -13,10 +17,9 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        image_processing.delay(validated_data['image'])
-
-
-
+        file = Image.objects.create(**validated_data)
+        instance = image_processing.delay(file.id)
+        return file
 
     def to_representation(self, instance):
         representation = super(ImageSerializer, self).to_representation(instance)

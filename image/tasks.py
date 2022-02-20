@@ -6,13 +6,13 @@ from look_saver.celery import celery_app
 
 
 @celery_app.task(bind=True, name='Image processing')
-def image_processing(instance):
+def image_processing(instance, *args):
     pic_name = instance.image.name
     pic_object = Im.open(instance.image)
 
     thumbnail = BytesIO
     pic_object.convert('RGBA').save(thumbnail, optimize=True,
-                                      quality=50, format='PNG')
+                                    quality=50, format='PNG')
     thumbnail.seek(0)
 
     instance.image = InMemoryUploadedFile(thumbnail, 'ImageField', "%s.png" % pic_name.split('.')[0],
