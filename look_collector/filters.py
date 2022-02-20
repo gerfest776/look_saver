@@ -1,8 +1,8 @@
 import django_filters
 from django.db.models import Prefetch
-from django_filters import rest_framework, CharFilter, Filter
+from django_filters import CharFilter, Filter, rest_framework
 
-from look_collector.models import OutfitItem, Outfit
+from look_collector.models import Outfit, OutfitItem
 
 
 class OutfitItemFilter(rest_framework.FilterSet):
@@ -16,11 +16,11 @@ class OutfitItemFilter(rest_framework.FilterSet):
 
     # order_by = django_filters.OrderingFilter(fields=['price'])
 
-    brand = django_filters.CharFilter(field_name='brand', method='brand_filter')
+    brand = django_filters.CharFilter(field_name="brand", method="brand_filter")
 
     class Meta:
         model = Outfit
-        fields = ['id','brand']
+        fields = ["id", "brand"]
 
     # def brand_filter(self, queryset, name,  value):
     #     list = []

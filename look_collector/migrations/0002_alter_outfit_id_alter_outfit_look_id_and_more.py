@@ -6,23 +6,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('look_collector', '0001_initial'),
+        ("look_collector", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='outfit',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="outfit",
+            name="id",
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
-            model_name='outfit',
-            name='look_id',
-            field=models.ManyToManyField(null=True, related_name='outfit', to='look_collector.OutfitItem'),
+            model_name="outfit",
+            name="look_id",
+            field=models.ManyToManyField(
+                null=True, related_name="outfit", to="look_collector.OutfitItem"
+            ),
         ),
         migrations.AlterField(
-            model_name='outfititem',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID'),
+            model_name="outfititem",
+            name="id",
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

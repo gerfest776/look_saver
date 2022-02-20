@@ -14,7 +14,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
-        fields = '__all__'
+        fields = "__all__"
 
     def create(self, validated_data):
         file = Image.objects.create(**validated_data)

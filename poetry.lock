@@ -370,6 +370,17 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "null"
+version = "0.6.1"
+description = "Implements the null object pattern."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "packaging"
 version = "21.3"
 description = "Core utilities for Python packages"
@@ -577,7 +588,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "21eb3ce93cba1c1008dab132a18531b1fbd48ef9ff326ef886473a4b3528d250"
+content-hash = "573bbe4e88a1955098f9843d181df5395b8779d8178dcf96bc483becf42e8be1"
 
 [metadata.files]
 amqp = [
@@ -768,6 +779,9 @@ markupsafe = [
     {file = "MarkupSafe-2.0.1-cp39-cp39-win32.whl", hash = "sha256:10f82115e21dc0dfec9ab5c0223652f7197feb168c940f3ef61563fc2d6beb74"},
     {file = "MarkupSafe-2.0.1-cp39-cp39-win_amd64.whl", hash = "sha256:693ce3f9e70a6cf7d2fb9e6c9d8b204b6b39897a2c4a1aa65728d5ac97dcc1d8"},
     {file = "MarkupSafe-2.0.1.tar.gz", hash = "sha256:594c67807fb16238b30c44bdf74f36c02cdf22d1c8cda91ef8a0ed8dabf5620a"},
+]
+null = [
+    {file = "null-0.6.1.tar.gz", hash = "sha256:77debb2c7a6c47d4d44a129f507f01267d1df4844b432fbf05491d7f6bb6aeee"},
 ]
 packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},

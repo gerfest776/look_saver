@@ -9,6 +9,7 @@ router.register("outfit", views.LookView)
 
 
 urlpatterns = [
+    path('outfit', LookView.as_view({"post": "create"})),
 ]
 
 

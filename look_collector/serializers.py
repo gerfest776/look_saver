@@ -10,7 +10,7 @@ class LookItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OutfitItem
-        fields = '__all__'
+        fields = "__all__"
 
 
 class LookImportSerializer(serializers.ModelSerializer):
@@ -18,13 +18,13 @@ class LookImportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Outfit
-        fields = ['outfit']
+        fields = ["outfit"]
 
     def create(self, validated_data):
-        current_outfit = Outfit.objects.create(owner_id=self.context['request'].user.id)
+        current_outfit = Outfit.objects.create(owner_id=self.context["request"].user.id)
 
         result = OutfitItem.objects.bulk_create(
-            [OutfitItem(**outfit_detail) for outfit_detail in validated_data['outfit']]
+            [OutfitItem(**outfit_detail) for outfit_detail in validated_data["outfit"]]
         )
 
         current_outfit.look_id.set(cloth.id for cloth in result)
@@ -32,7 +32,7 @@ class LookImportSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super(LookImportSerializer, self).to_representation(instance)
-        representation['outfit'] = {"outfit_id": instance.id}
+        representation["outfit"] = {"outfit_id": instance.id}
         return representation
 
 
@@ -41,21 +41,13 @@ class OutfitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Outfit
-        fields = '__all__'
+        fields = "__all__"
 
 
 class PartialSerializer(serializers.ModelSerializer):
     class Meta:
         model = OutfitItem
-        fields = [
-            'type',
-            'brand',
-            'price',
-            'size',
-            'color',
-            'link',
-            'image_id'
-        ]
+        fields = ["type", "brand", "price", "size", "color", "link", "image_id"]
 
         extra_kwargs = {
             "type": {"required": False},
@@ -68,7 +60,7 @@ class PartialSerializer(serializers.ModelSerializer):
         }
 
     def update(self, obj, validated_data):
-        obj = obj.look_id.filter(id=self.context['view'].kwargs['cloth_id']).first()
+        obj = obj.look_id.filter(id=self.context["view"].kwargs["cloth_id"]).first()
         for attr, value in validated_data.items():
             setattr(obj, attr, value)
         obj.save()
@@ -81,4 +73,4 @@ class RetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Outfit
-        fields = ['id', 'look_id', 'outfit']
+        fields = ["id", "look_id", "outfit"]
