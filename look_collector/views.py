@@ -1,3 +1,6 @@
+from collections.abc import KeysView
+
+from django.db.models import Prefetch
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
@@ -33,17 +36,35 @@ class LookView(
     GenericViewSet,
 ):
     queryset = Outfit.objects.all()
+    lookup_field = 'id'
     serializer_class = LookImportSerializer
-    lookup_field = "id"
     pagination_class = Pagination
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = OutfitItemFilter
+
+    # filter_backends = [DjangoFilterBackend]
+    # filterset_class = OutfitItemFilter
 
     def get_queryset(self):
         pass
         if self.action == "my_outfits":
             qs = Outfit.objects.filter(owner_id=self.request.user.id)
             return qs
+
+        if self.destroy:
+            if str(self.request.query_params.dict().keys()) in [
+                "dict_keys(['pants'])",
+                "dict_keys(['shoes'])",
+                "dict_keys(['top'])",
+                "dict_keys(['accessory'])"
+            ]:
+                params = int(''.join(list(self.request.query_params.dict().values())))
+                qs = Outfit.objects.filter(id=self.kwargs['id']).first().look_id.filter(id=params).first()
+                return qs
+
+            elif not self.request.query_params.dict():
+                qs = Outfit.objects.filter(id=self.kwargs['id']).first()
+                return qs
+            else:
+                return '2'
         else:
             return self.queryset
 
@@ -69,18 +90,7 @@ class LookView(
     def outfits_retrieve(self, request, id):
         return self.retrieve(request)
 
-    @action(methods=["delete"], detail=True, url_path="del_outfits")
-    def all_outfit_destroy(self, request, id):
-        obj = self.get_object()
-        instance = self.get_object().look_id.all()
-        self.perform_destroy(instance)
-        self.perform_destroy(obj)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    @action(
-        methods=["delete"], detail=True, url_path="del_outfits/(?P<cloth_id>[^/.]+)"
-    )
-    def outfits_destroy(self, request, id, cloth_id):
-        instance = self.get_object().look_id.filter(id=cloth_id).first()
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def destroy(self, request, *args, **kwargs):
+        qs = self.get_queryset()
+        self.perform_destroy(qs)
+        return Response('Successful delete', status=status.HTTP_204_NO_CONTENT)

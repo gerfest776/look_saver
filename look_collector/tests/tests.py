@@ -3,8 +3,9 @@ from django.urls import reverse
 from psycopg2.sql import NULL
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework.test import APIRequestFactory
 
-from look_collector.models import Outfit, OutfitItem
+from look_collector.models import Outfit, OutfitItem, User
 
 
 class TestApi(APITestCase):
@@ -12,7 +13,7 @@ class TestApi(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.user = 'admin'
+        cls.my_admin = User.objects.create_superuser('admin', '', 'admin')
 
         cls.post_data = {
             "outfit": [
@@ -23,7 +24,7 @@ class TestApi(APITestCase):
                     "size": "asd",
                     "color": "test",
                     "link": "hi",
-                    "image_id": None
+                    "image_id": None,
                 },
                 {
                     "type": "top",
@@ -32,7 +33,7 @@ class TestApi(APITestCase):
                     "size": "asd",
                     "color": "test",
                     "link": "hi",
-                    "image_id": None
+                    "image_id": None,
                 },
                 {
                     "type": "accessory",
@@ -41,7 +42,7 @@ class TestApi(APITestCase):
                     "size": "asd",
                     "color": "test",
                     "link": "hi",
-                    "image_id": None
+                    "image_id": None,
                 },
                 {
                     "type": "shoes",
@@ -50,14 +51,13 @@ class TestApi(APITestCase):
                     "size": "asd",
                     "color": "test",
                     "link": "hi",
-                    "image_id": None
-                }
+                    "image_id": None,
+                },
             ]
         }
 
     def test_create_outfit(self):
         url = reverse("outfit-list")
-        post_data = self.post_data
-        user = self.user
-        response = self.client.post(url, post_data, format='json')
+        self.client.force_authenticate(user=self.my_admin)
+        response = self.client.post(url, self.post_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
