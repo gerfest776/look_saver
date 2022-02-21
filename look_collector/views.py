@@ -12,7 +12,7 @@ from rest_framework.mixins import (
     RetrieveModelMixin,
     UpdateModelMixin,
 )
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -37,6 +37,7 @@ class LookView(
 ):
     queryset = Outfit.objects.all()
     serializer_class = LookImportSerializer
+    permission_classes = [AllowAny]
     pagination_class = Pagination
     filter_backends = [DjangoFilterBackend]
     search_fields = ['brand', 'price', 'type']
@@ -58,7 +59,7 @@ class LookView(
         else:
             return self.serializer_class
 
-    @action(methods=["get"], detail=False, url_path="my_outfits")
+    @action(methods=["get"], detail=False, url_path="my_outfits", url_name="my-outfits")
     def my_outfits(self, request):
         return self.list(request)
 
@@ -66,7 +67,7 @@ class LookView(
     def outfits_partial(self, request, pk, cloth_id):
         return self.partial_update(request)
 
-    @action(methods=["get"], detail=True, url_path="my_outfits/")
+    @action(methods=["get"], detail=True, url_path="my_outfits", url_name="my-outfit-list")
     def outfits_retrieve(self, request, pk):
         return self.retrieve(request)
 

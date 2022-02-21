@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "look_collector",
     "image",
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,11 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
@@ -88,6 +94,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+HOST = config("HOST")
 
 LANGUAGE_CODE = "en-us"
 

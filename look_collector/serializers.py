@@ -7,7 +7,6 @@ from look_collector.models import Outfit, OutfitItem
 
 
 class LookItemSerializer(serializers.ModelSerializer):
-    # image_id = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all())
     class Meta:
         model = OutfitItem
         fields = "__all__"
@@ -37,13 +36,12 @@ class LookImportSerializer(serializers.ModelSerializer):
 
 
 class OutfitSerializer(serializers.ModelSerializer):
-    look_id = LookItemSerializer(many=True, read_only=True)
-    outfit = look_id
+    outfit = LookItemSerializer(source='look_id', many=True, read_only=True)
 
     class Meta:
         model = Outfit
-        fields = ['look_id', 'outfit']
-
+        fields = ['outfit']
+        # depth = 1
 
 class PartialSerializer(serializers.ModelSerializer):
     class Meta:

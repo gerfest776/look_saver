@@ -1,4 +1,4 @@
-from idlelib.pyshell import HOST, PORT
+from look_saver.settings import HOST
 
 from django.db import models
 
@@ -10,4 +10,4 @@ class Image(models.Model):
 
     @property
     def image_url(self):
-        return f'{HOST}:8000{self.image.url}'
+        return f'{HOST}{self.image.url}'

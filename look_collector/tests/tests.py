@@ -8,12 +8,15 @@ from look_collector.models import Outfit, OutfitItem, User
 
 
 class TestApi(APITestCase):
-    # fixtures = ["my_fixture.json"]
+    fixtures = ["my_fixture.json"]
+
+    def setUp(self) -> None:
+        pass
+        # self.client.force_authenticate(user=self.my_admin)
 
     @classmethod
     def setUpTestData(cls):
         cls.my_admin = User.objects.create_superuser("admin", "", "admin")
-
         cls.post_data = {
             "outfit": [
                 {
@@ -60,8 +63,19 @@ class TestApi(APITestCase):
         self.client.force_authenticate(user=self.my_admin)
         response = self.client.post(url, self.post_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data, {"outfit": {"outfit_id": 1}})
+        self.assertEqual(response.data, {"outfit": {"outfit_id": 2}})
 
-    # def test_get_oufit(self):
-    #     url = reverse('my_outfits')
-    #
+    def test_get_outfit(self):
+        url = reverse('outfit-my-outfits')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsNotNone(response.data)
+
+    # def test_patch_outfit(self):
+    #     url = reverse('outfit-outfits-partial', args=["1", "2"])
+    #     patch_data = {"brand": "NONAME"}
+    #     response = self.client.patch(url, patch_data, format="json")
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+

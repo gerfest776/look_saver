@@ -13,7 +13,7 @@
       "password": "pbkdf2_sha256$320000$K8WhdRA48PO5ARHCmvDO7N$4ysEsbMwV5ls2FfgySbRWYUQfDZlJAVzvLeZVLxINjM=,",
       "last_login": "2022-02-19 11:19:30.534915 +00:00",
       "is_superuser": "True",
-      "username": "admin",
+      "username": "hi",
       "first_name": "",
       "last_name": "",
       "email": "",
@@ -21,6 +21,13 @@
       "is_active": "True",
       "date_joined": "2022-02-19 11:19:18.469003 +00:00",
       "id": "2d401a06-66f1-461b-8abb-c665ab06858f"
+    }
+  },
+  {
+    "model": "look_collector.Outfit",
+    "pk": 1,
+    "fields": {
+      "owner_id": "2d401a06-66f1-461b-8abb-c665ab06858f"
     }
   },
     {

@@ -22,13 +22,6 @@ class OutfitBrand(filters.CharFilter):
 
 
 class OutfitItemFilter(rest_framework.FilterSet):
-    """
-    Filter for OutfitItem
-
-    QueryParams:
-            brand - field which sorts by brand(brand = <UUID>)
-            price - field which sorts by price(price = <UUID>)
-    """
     brand = OutfitBrand()
 
     class Meta:
