@@ -11,8 +11,7 @@ class TestApi(APITestCase):
     fixtures = ["my_fixture.json"]
 
     def setUp(self) -> None:
-        pass
-        # self.client.force_authenticate(user=self.my_admin)
+        self.client.force_authenticate(self.my_admin)
 
     @classmethod
     def setUpTestData(cls):
@@ -60,12 +59,13 @@ class TestApi(APITestCase):
 
     def test_create_outfit(self):
         url = reverse("outfit-list")
-        self.client.force_authenticate(user=self.my_admin)
+        self.client.force_authenticate(self.my_admin)
         response = self.client.post(url, self.post_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, {"outfit": {"outfit_id": 2}})
 
     def test_get_outfit(self):
+        self.client.force_authenticate(self.my_admin)
         url = reverse('outfit-my-outfits')
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
