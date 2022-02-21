@@ -60,3 +60,8 @@ class TestApi(APITestCase):
         self.client.force_authenticate(user=self.my_admin)
         response = self.client.post(url, self.post_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data, {"outfit": {"outfit_id": 1}})
+
+    # def test_get_oufit(self):
+    #     url = reverse('my_outfits')
+    #

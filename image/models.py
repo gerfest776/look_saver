@@ -1,3 +1,5 @@
+from idlelib.pyshell import HOST, PORT
+
 from django.db import models
 
 
@@ -8,4 +10,4 @@ class Image(models.Model):
 
     @property
     def image_url(self):
-        return self.image.url
+        return f'{HOST}:8000{self.image.url}'

@@ -39,7 +39,6 @@ class LookView(
     serializer_class = LookImportSerializer
     pagination_class = Pagination
     filter_backends = [DjangoFilterBackend]
-    filterset_class = OutfitItemFilter
     search_fields = ['brand', 'price', 'type']
 
     def get_queryset(self):
@@ -79,8 +78,7 @@ class LookView(
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             for param in query_params.keys():
-                for outfit_items in OutfitItem.Items.to_choices():
-                    if param in outfit_items:
-                        param = int(query_params[param])
-                        obj.look_id.remove(param)
+                if param in [item for item in OutfitItem.Items.to_choices()]:
+                    param = int(query_params[param])
+                    obj.look_id.remove(param)
             return Response(status=status.HTTP_204_NO_CONTENT)

@@ -10,8 +10,8 @@ from image.models import Image
 from look_saver.celery import celery_app
 
 
-@celery_app.task(bind=True, name="Image processing")
-def image_processing(instance, inmemobj, *args, **kwargs):
+@celery_app.task(bind=True, name="image size down")
+def image_size_down(instance, *args):
     instance = Image.objects.get(id=instance)
     pic_name = instance.image.name
     pic_object = Im.open(instance.image)

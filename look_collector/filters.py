@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import django_filters
 from django.db.models import Prefetch
 from django_filters import CharFilter, Filter, rest_framework
@@ -15,17 +17,8 @@ class OutfitBrand(filters.CharFilter):
                     queryset=OutfitItem.objects.filter(brand=value)
                 )
             )
-
-
-class OutfitPrice(filters.CharFilter):
-    def filter(self, qs, value):
-        if value is not None:
-            return qs.prefetch_related(
-                Prefetch(
-                    'look_id',
-                    queryset=OutfitItem.objects.filter(brand=value)
-                )
-            )
+        else:
+            return qs
 
 
 class OutfitItemFilter(rest_framework.FilterSet):
@@ -37,8 +30,7 @@ class OutfitItemFilter(rest_framework.FilterSet):
             price - field which sorts by price(price = <UUID>)
     """
     brand = OutfitBrand()
-    price = OutfitPrice()
 
     class Meta:
         model = Outfit
-        fields = ["brand", "price"]
+        fields = ["brand"]

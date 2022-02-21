@@ -1,91 +1,78 @@
 [
   {
-    "model": "look_collecotr.user",
+    "model": "image.image",
     "pk": 1,
     "fields": {
-      "import_id": 1,
-      "created_at": "2022-02-06 06:08:33.264036 +00:00"
+      "image": "LAUGH.jpg"
     }
   },
   {
-    "model": "villagers.villager",
+    "model": "look_collector.user",
     "pk": 1,
     "fields": {
-      "citizen_id": 1,
-      "town": "Moscow",
-      "street": "Pushkin",
-      "building": "MscCity",
-      "apartment": 8,
-      "name": "German Gritsenko",
-      "birth_date": "2003-01-28",
-      "gender": "Male",
-      "importer": 1,
-      "relatives": [2,3]
+      "password": "pbkdf2_sha256$320000$K8WhdRA48PO5ARHCmvDO7N$4ysEsbMwV5ls2FfgySbRWYUQfDZlJAVzvLeZVLxINjM=,",
+      "last_login": "2022-02-19 11:19:30.534915 +00:00",
+      "is_superuser": "True",
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": "True",
+      "is_active": "True",
+      "date_joined": "2022-02-19 11:19:18.469003 +00:00",
+      "id": "2d401a06-66f1-461b-8abb-c665ab06858f"
     }
   },
     {
-    "model": "villagers.villager",
+    "model": "look_collector.OutfitItem",
+    "pk": 1,
+    "fields": {
+      "type": "shoes",
+      "brand": "dc",
+      "price": 100.00,
+      "size": "M",
+      "color": "Black",
+      "link": "test.ru",
+      "image_id": 1
+    }
+  },
+    {
+    "model": "look_collector.OutfitItem",
     "pk": 2,
     "fields": {
-      "citizen_id": 2,
-      "town": "Moscow",
-      "street": "Pushkin",
-      "building": "MscCity",
-      "apartment": 8,
-      "name": "Andrey Gritsenko",
-      "birth_date": "1976-03-26",
-      "gender": "Male",
-      "importer": 1,
-      "relatives": [1,3]
+      "type": "top",
+      "brand": "dc",
+      "price": 120.00,
+      "size": "S",
+      "color": "Black",
+      "link": "test.ru",
+      "image_id": 1
     }
   },
     {
-    "model": "villagers.villager",
+    "model": "look_collector.OutfitItem",
     "pk": 3,
     "fields": {
-      "citizen_id": 3,
-      "town": "Moscow",
-      "street": "Pushkin",
-      "building": "MscCity",
-      "apartment": 8,
-      "name": "Someone DontKnow",
-      "birth_date": "1999-03-19",
-      "gender": "Female",
-      "importer": 1,
-      "relatives": [1,2]
+      "type": "accessory",
+      "brand": "lv",
+      "price": 150.00,
+      "size": "S",
+      "color": "Black",
+      "link": "test.ru",
+      "image_id": 1
     }
   },
     {
-    "model": "villagers.villager",
+    "model": "look_collector.OutfitItem",
     "pk": 4,
     "fields": {
-      "citizen_id": 4,
-      "town": "StSpb",
-      "street": "1Mur",
-      "building": "asdds",
-      "apartment": 2,
-      "name": "Sebas Gritsenko",
-      "birth_date": "1989-01-28",
-      "gender": "Male",
-      "importer": 1,
-      "relatives": []
-    }
-  },
-      {
-    "model": "villagers.villager",
-    "pk": 5,
-    "fields": {
-      "citizen_id": 5,
-      "town": "StSpb",
-      "street": "1Mur",
-      "building": "asdds",
-      "apartment": 2,
-      "name": "Just Human",
-      "birth_date": "2020-01-01",
-      "gender": "Female",
-      "importer": 1,
-      "relatives": []
+      "type": "pants",
+      "brand": "lv",
+      "price": 150.00,
+      "size": "S",
+      "color": "Black",
+      "link": "test.ru",
+      "image_id": 1
     }
   }
-
 ]
