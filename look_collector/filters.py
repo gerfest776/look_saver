@@ -1,8 +1,31 @@
 import django_filters
 from django.db.models import Prefetch
 from django_filters import CharFilter, Filter, rest_framework
+from django_filters.rest_framework import filters
 
 from look_collector.models import Outfit, OutfitItem
+
+
+class OutfitBrand(filters.CharFilter):
+    def filter(self, qs, value):
+        if value is not None:
+            return qs.prefetch_related(
+                Prefetch(
+                    'look_id',
+                    queryset=OutfitItem.objects.filter(brand=value)
+                )
+            )
+
+
+class OutfitPrice(filters.CharFilter):
+    def filter(self, qs, value):
+        if value is not None:
+            return qs.prefetch_related(
+                Prefetch(
+                    'look_id',
+                    queryset=OutfitItem.objects.filter(brand=value)
+                )
+            )
 
 
 class OutfitItemFilter(rest_framework.FilterSet):
@@ -10,25 +33,12 @@ class OutfitItemFilter(rest_framework.FilterSet):
     Filter for OutfitItem
 
     QueryParams:
-            order_by - field which sorts by price(order_by = <UUID>)
             brand - field which sorts by brand(brand = <UUID>)
+            price - field which sorts by price(price = <UUID>)
     """
-
-    # order_by = django_filters.OrderingFilter(fields=['price'])
-
-    brand = django_filters.CharFilter(field_name="brand", method="brand_filter")
+    brand = OutfitBrand()
+    price = OutfitPrice()
 
     class Meta:
         model = Outfit
-        fields = ["id", "brand"]
-
-    # def brand_filter(self, queryset, name,  value):
-    #     list = []
-    #     for query in queryset:
-    #         dict = {f"outfit_id {query.id}" : []}
-    #         for outfititem in query.look_id.all():
-    #             if outfititem.brand == value:
-    #                 dict[f"outfit_id {query.id}"].append(outfititem)
-    #         list.append(dict)
-    #     queryset = list_to_queryset(list)
-    #     return Outfit.objects.filter()
+        fields = ["brand", "price"]

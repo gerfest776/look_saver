@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models import Prefetch
 from rest_framework import serializers
 
 from image.models import Image
@@ -7,7 +8,6 @@ from look_collector.models import Outfit, OutfitItem
 
 class LookItemSerializer(serializers.ModelSerializer):
     # image_id = serializers.PrimaryKeyRelatedField(queryset=Image.objects.all())
-
     class Meta:
         model = OutfitItem
         fields = "__all__"
@@ -38,10 +38,11 @@ class LookImportSerializer(serializers.ModelSerializer):
 
 class OutfitSerializer(serializers.ModelSerializer):
     look_id = LookItemSerializer(many=True, read_only=True)
+    outfit = look_id
 
     class Meta:
         model = Outfit
-        fields = "__all__"
+        fields = ['look_id', 'outfit']
 
 
 class PartialSerializer(serializers.ModelSerializer):

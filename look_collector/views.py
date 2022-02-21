@@ -36,15 +36,13 @@ class LookView(
     GenericViewSet,
 ):
     queryset = Outfit.objects.all()
-    lookup_field = "id"
     serializer_class = LookImportSerializer
     pagination_class = Pagination
-
-    # filter_backends = [DjangoFilterBackend]
-    # filterset_class = OutfitItemFilter
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = OutfitItemFilter
+    search_fields = ['brand', 'price', 'type']
 
     def get_queryset(self):
-        pass
         if self.action == "my_outfits":
             qs = Outfit.objects.filter(owner_id=self.request.user.id)
             return qs
@@ -66,11 +64,11 @@ class LookView(
         return self.list(request)
 
     @action(methods=["patch"], detail=True, url_path="my_outfits/(?P<cloth_id>[^/.]+)")
-    def outfits_partial(self, request, id, cloth_id):
+    def outfits_partial(self, request, pk, cloth_id):
         return self.partial_update(request)
 
     @action(methods=["get"], detail=True, url_path="my_outfits/")
-    def outfits_retrieve(self, request, id):
+    def outfits_retrieve(self, request, pk):
         return self.retrieve(request)
 
     def destroy(self, request, *args, **kwargs):
@@ -86,9 +84,3 @@ class LookView(
                         param = int(query_params[param])
                         obj.look_id.remove(param)
             return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
-        # qs = self.get_queryset()
-        # self.perform_destroy(qs)
-        # return Response("Successful delete", status=status.HTTP_204_NO_CONTENT)

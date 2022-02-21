@@ -10,7 +10,7 @@ router.register("outfit", views.LookView)
 
 urlpatterns = [
     path("outfit", LookView.as_view({"post": "create"})),
-    path("outfit/<id>", LookView.as_view({"delete": "destroy"})),
+    # path("outfit/<pk>", LookView.as_view({"delete": "destroy"})),
 ]
 
 
