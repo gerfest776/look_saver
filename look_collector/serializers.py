@@ -1,8 +1,5 @@
-from django.db import transaction
-from django.db.models import Prefetch
 from rest_framework import serializers
 
-from image.models import Image
 from look_collector.models import Outfit, OutfitItem
 
 

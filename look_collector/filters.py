@@ -1,8 +1,5 @@
-from decimal import Decimal
-
-import django_filters
 from django.db.models import Prefetch
-from django_filters import CharFilter, Filter, rest_framework
+from django_filters import rest_framework
 from django_filters.rest_framework import filters
 
 from look_collector.models import Outfit, OutfitItem

@@ -1,7 +1,4 @@
-import base64
 import io
-from base64 import b64decode
-from io import BytesIO
 
 from django.core.files.uploadhandler import InMemoryUploadedFile
 from PIL import Image as Im

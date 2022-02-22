@@ -1,10 +1,6 @@
-from collections.abc import KeysView
-
-from django.db.models import Prefetch
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import (
     CreateModelMixin,
     DestroyModelMixin,
@@ -12,12 +8,11 @@ from rest_framework.mixins import (
     RetrieveModelMixin,
     UpdateModelMixin,
 )
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from look_collector.filters import OutfitItemFilter
-from look_collector.models import Outfit, OutfitItem, User
+from look_collector.models import Outfit, OutfitItem
 from look_collector.pagination import Pagination
 from look_collector.serializers import (
     LookImportSerializer,

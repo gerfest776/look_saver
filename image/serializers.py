@@ -1,7 +1,3 @@
-import io
-
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from PIL import Image as Im
 from rest_framework import serializers
 
 from image.tasks import size_reduce
