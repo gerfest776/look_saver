@@ -1,21 +1,23 @@
-import null as null
 from django.urls import reverse
-from psycopg2.sql import NULL
 from rest_framework import status
-from rest_framework.test import APIRequestFactory, APITestCase
+from rest_framework.test import APITestCase
 
-from look_collector.models import Outfit, OutfitItem, User
+from look_collector.models import User, OutfitItem
 
 
 class TestApi(APITestCase):
     fixtures = ["my_fixture.json"]
 
     def setUp(self) -> None:
-        self.client.force_authenticate(self.my_admin)
+        pass
+        # self.client.force_authenticate(self.user)
 
     @classmethod
     def setUpTestData(cls):
-        cls.my_admin = User.objects.create_superuser("admin", "", "admin")
+        cls.user = User.objects.create_user(
+            username='admin',
+            password='admin'
+        )
         cls.post_data = {
             "outfit": [
                 {
@@ -59,23 +61,25 @@ class TestApi(APITestCase):
 
     def test_create_outfit(self):
         url = reverse("outfit-list")
-        self.client.force_authenticate(self.my_admin)
+        self.client.force_authenticate(self.user)
         response = self.client.post(url, self.post_data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, {"outfit": {"outfit_id": 2}})
 
     def test_get_outfit(self):
-        self.client.force_authenticate(self.my_admin)
-        url = reverse('outfit-my-outfits')
-        response = self.client.get(url, format='json')
+        url = reverse("outfit-my-outfits")
+        response = self.client.get(url, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsNotNone(response.data)
 
-    # def test_patch_outfit(self):
-    #     url = reverse('outfit-outfits-partial', args=["1", "2"])
-    #     patch_data = {"brand": "NONAME"}
-    #     response = self.client.patch(url, patch_data, format="json")
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_patch_outfit(self):
+        url = reverse('outfit-outfits-partial', args=["1", "2"])
+        patch_data = {"brand": "NONAME"}
+        response = self.client.patch(url, patch_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(
+            OutfitItem.objects.filter(id=2).first().brand, patch_data["brand"]
+        )
 
-
-
+    def test_retrieve_outfit(self):
+        url = reverse()

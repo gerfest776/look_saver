@@ -59,6 +59,9 @@ class LookView(
         else:
             return self.serializer_class
 
+    def perform_create(self, serializer):
+        serializer.save(owner_id=self.request.user)
+
     @action(methods=["get"], detail=False, url_path="my_outfits", url_name="my-outfits")
     def my_outfits(self, request):
         return self.list(request)

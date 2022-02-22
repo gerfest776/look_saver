@@ -43,6 +43,7 @@ class OutfitSerializer(serializers.ModelSerializer):
         fields = ['outfit']
         # depth = 1
 
+
 class PartialSerializer(serializers.ModelSerializer):
     class Meta:
         model = OutfitItem
