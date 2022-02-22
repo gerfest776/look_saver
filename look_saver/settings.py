@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "look_collector",
     "image",
-    'django_filters'
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -73,17 +73,13 @@ DATABASES = {
 #     )
 # }
 
-if 'test' in sys.argv :
-    DEFAULT_FILE_STORAGE = 'inmemorystorage.InMemoryStorage'
-    PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']
+if "test" in sys.argv:
+    DEFAULT_FILE_STORAGE = "inmemorystorage.InMemoryStorage"
+    PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'api_key': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization'
-        }
+    "SECURITY_DEFINITIONS": {
+        "api_key": {"type": "apiKey", "in": "header", "name": "Authorization"}
     },
 }
 

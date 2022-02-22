@@ -45,7 +45,7 @@ services:
     restart: always
     build:
       context: .
-    command: celery -A app worker -l info
+    command: celery -A look_saver worker -l INFO
     <<: *global
     depends_on:
       - database

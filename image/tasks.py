@@ -10,17 +10,17 @@ from image.models import Image
 from look_saver.celery import celery_app
 
 
-@celery_app.task(bind=True, name="image size down")
-def image_size_down(instance, *args):
-    instance = Image.objects.get(id=instance)
+@celery_app.task(bind=True, name="Size reduce")
+def size_reduce(first, check):
+    instance = Image.objects.get(id=check)
     pic_name = instance.image.name
     pic_object = Im.open(instance.image)
 
-    thumbnail = BytesIO()
+    thumbnail = io.BytesIO()
     pic_object.convert("RGBA").save(thumbnail, optimize=True, quality=50, format="PNG")
     thumbnail.seek(0)
 
-    instance.image = InMemoryUploadedFile(
+    image = InMemoryUploadedFile(
         thumbnail,
         "ImageField",
         "%s.png" % pic_name.split(".")[0],
@@ -28,4 +28,5 @@ def image_size_down(instance, *args):
         thumbnail.tell(),
         None,
     )
+    instance.image = image
     instance.save()

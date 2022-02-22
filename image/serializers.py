@@ -1,13 +1,10 @@
-import json
-from base64 import b64decode
-
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.core.serializers.json import DjangoJSONEncoder
+import io
 from PIL import Image as Im
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
 
-from image.tasks import image_size_down
 from look_collector.models import Image
+from image.tasks import size_reduce
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -20,9 +17,9 @@ class ImageSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         image = Image.objects.create(**validated_data)
-        image_size_down.delay(image.id)
-        return image
+        size_reduce.delay(image.id)
+        return image.id
 
     def to_representation(self, instance):
-        representation = super(ImageSerializer, self).to_representation(instance)
+        representation = {"id": instance}
         return representation
