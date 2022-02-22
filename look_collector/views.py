@@ -12,7 +12,7 @@ from rest_framework.mixins import (
     RetrieveModelMixin,
     UpdateModelMixin,
 )
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
@@ -40,7 +40,7 @@ class LookView(
     permission_classes = [AllowAny]
     pagination_class = Pagination
     filter_backends = [DjangoFilterBackend]
-    search_fields = ['brand', 'price', 'type']
+    search_fields = ["brand", "price", "type"]
 
     def get_queryset(self):
         if self.action == "my_outfits":
@@ -59,9 +59,6 @@ class LookView(
         else:
             return self.serializer_class
 
-    def perform_create(self, serializer):
-        serializer.save(owner_id=self.request.user)
-
     @action(methods=["get"], detail=False, url_path="my_outfits", url_name="my-outfits")
     def my_outfits(self, request):
         return self.list(request)
@@ -70,11 +67,17 @@ class LookView(
     def outfits_partial(self, request, pk, cloth_id):
         return self.partial_update(request)
 
-    @action(methods=["get"], detail=True, url_path="my_outfits", url_name="my-outfit-retr")
+    @action(
+        methods=["get"], detail=True, url_path="my_outfits", url_name="my-outfit-retr"
+    )
     def outfits_retrieve(self, request, pk):
         return self.retrieve(request)
 
     def destroy(self, request, *args, **kwargs):
+        """
+        Check query_params, if: delete outfititem relationship
+        else: delete outfit relationship
+        """
         query_params = self.request.query_params.dict()
         obj = self.get_object()
         if not query_params:

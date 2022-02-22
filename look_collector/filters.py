@@ -12,10 +12,7 @@ class OutfitBrand(filters.CharFilter):
     def filter(self, qs, value):
         if value is not None:
             return qs.prefetch_related(
-                Prefetch(
-                    'look_id',
-                    queryset=OutfitItem.objects.filter(brand=value)
-                )
+                Prefetch("look_id", queryset=OutfitItem.objects.filter(brand=value))
             )
         else:
             return qs

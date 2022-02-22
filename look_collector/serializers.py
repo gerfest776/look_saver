@@ -20,12 +20,14 @@ class LookImportSerializer(serializers.ModelSerializer):
         fields = ["outfit"]
 
     def create(self, validated_data):
+        """
+        create outfit obj with owner_id, after bulk_create outfititem
+        outfit obj set relatvies
+        """
         current_outfit = Outfit.objects.create(owner_id=self.context["request"].user.id)
-
         result = OutfitItem.objects.bulk_create(
             [OutfitItem(**outfit_detail) for outfit_detail in validated_data["outfit"]]
         )
-
         current_outfit.look_id.set(cloth.id for cloth in result)
         return current_outfit
 
@@ -36,11 +38,11 @@ class LookImportSerializer(serializers.ModelSerializer):
 
 
 class OutfitSerializer(serializers.ModelSerializer):
-    outfit = LookItemSerializer(source='look_id', many=True, read_only=True)
+    outfit = LookItemSerializer(source="look_id", many=True, read_only=True)
 
     class Meta:
         model = Outfit
-        fields = ['outfit']
+        fields = ["outfit"]
         # depth = 1
 
 

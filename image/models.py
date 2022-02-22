@@ -1,6 +1,6 @@
-from look_saver.settings import HOST
-
 from django.db import models
+
+from look_saver.settings import HOST
 
 
 class Image(models.Model):
@@ -10,4 +10,4 @@ class Image(models.Model):
 
     @property
     def image_url(self):
-        return f'{HOST}{self.image.url}'
+        return f"{HOST}{self.image.url}"
