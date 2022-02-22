@@ -82,4 +82,7 @@ class TestApi(APITestCase):
         )
 
     def test_retrieve_outfit(self):
-        url = reverse()
+        url = reverse('outfit-my-outfit-retr', args=['1'])
+        response = self.client.get(url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsNotNone(response.data)

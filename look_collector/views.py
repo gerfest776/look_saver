@@ -70,7 +70,7 @@ class LookView(
     def outfits_partial(self, request, pk, cloth_id):
         return self.partial_update(request)
 
-    @action(methods=["get"], detail=True, url_path="my_outfits", url_name="my-outfit-list")
+    @action(methods=["get"], detail=True, url_path="my_outfits", url_name="my-outfit-retr")
     def outfits_retrieve(self, request, pk):
         return self.retrieve(request)
 
