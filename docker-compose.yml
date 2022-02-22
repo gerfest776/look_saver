@@ -1,17 +1,56 @@
-version: '2'
+version: '3.8'
+
+x-settings: &global
+  environment:
+    - HOST="0.0.0.0:8080"
+    - SECRET_KEY='django-insecure-j)rc7@f%y3dn1(+v0*@c-*zov6&af(3b315*qj8y^ujt%mv7ux'
+    - DEBUG=True
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_USER=postgres
+    - POSTGRES_DB=postgres
+    - PGDATA=/var/lib/postgresql/data
+    - DB_NAME=postgres
+    - DB_USER=postgres
+    - DB_PASSWORD=postgres
+    - DB_HOST=database
+    - DB_PORT=5432
 
 services:
-  redis:
-    image: docker.io/bitnami/redis:6.2
-    environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+  api:
+    container_name: api
+    command: python manage.py runserver
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '9001:9001'
+      - "8080:8080"
+    <<: *global
+    depends_on:
+      - database
+
+  database:
+    image: postgres:13.4
     volumes:
-      - 'redis_data:/bitnami/redis/data'
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    <<: *global
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A app worker -l info
+    <<: *global
+    depends_on:
+      - database
+      - redis
+      - api
 
 volumes:
-  redis_data:
-    driver: local
+  postgres_data:

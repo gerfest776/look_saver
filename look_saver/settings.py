@@ -73,6 +73,10 @@ DATABASES = {
 #     )
 # }
 
+if 'test' in sys.argv :
+    DEFAULT_FILE_STORAGE = 'inmemorystorage.InMemoryStorage'
+    PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']
+
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'api_key': {
