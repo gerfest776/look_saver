@@ -1,8 +1,9 @@
+from django.db.models import QuerySet
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from look_collector.models import User, OutfitItem
+from look_collector.models import User, OutfitItem, Outfit
 
 
 class TestApi(APITestCase):
@@ -68,6 +69,7 @@ class TestApi(APITestCase):
 
     def test_get_outfit(self):
         url = reverse("outfit-my-outfits")
+        self.client.login(username='user', password='user')
         response = self.client.get(url, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsNotNone(response.data)
@@ -86,3 +88,13 @@ class TestApi(APITestCase):
         response = self.client.get(url, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsNotNone(response.data)
+
+    def test_delete_outfit(self):
+        url = reverse('outfit-detail', args=['1'])
+        url_query_param = '/api/outfit/1?shoes=1'
+        response = self.client.delete(url, format="json")
+        self.assertIsNone(Outfit.objects.get(id=1).look_id.filter(id=1).first())
+        response_query_param = self.client.delete(url_query_param, format='json')
+        self.assertEqual(list(Outfit.objects.get(id=1).look_id.all()), [])
+
+
