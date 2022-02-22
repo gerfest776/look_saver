@@ -12,8 +12,8 @@ router.register("outfit", views.LookView)
 urlpatterns = [
     path("outfit", LookView.as_view({"post": "create"})),
     path("outfit/<int:pk>", LookView.as_view({"delete": "destroy"})),
-    path('token', TokenObtainPairView.as_view(), name='token_obta   in_pair'),
-    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh')
+    path("token", TokenObtainPairView.as_view(), name="token_obta   in_pair"),
+    path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
 ]
 
 

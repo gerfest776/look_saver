@@ -5,7 +5,6 @@ from image import views
 
 router = DefaultRouter(trailing_slash=False)
 router.register("image_upload", views.ImageView)
-print(2)
 
 
 urlpatterns = []

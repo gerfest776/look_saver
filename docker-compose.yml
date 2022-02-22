@@ -2,9 +2,9 @@ version: '3.8'
 
 x-settings: &global
   environment:
-    - HOST="0.0.0.0:8080"
+    - ALLOWED_HOSTS="*"
     - SECRET_KEY='django-insecure-j)rc7@f%y3dn1(+v0*@c-*zov6&af(3b315*qj8y^ujt%mv7ux'
-    - DEBUG=True
+    - DEBUG=False
     - POSTGRES_PASSWORD=postgres
     - POSTGRES_USER=postgres
     - POSTGRES_DB=postgres
@@ -14,16 +14,14 @@ x-settings: &global
     - DB_PASSWORD=postgres
     - DB_HOST=database
     - DB_PORT=5432
-    - CELERY_BROKER_URL = redis://0.0.0.0:6379
-    - CELERY_RESULT_BACKEND = redis://0.0.0.0:6379
-    - CELERY_ACCEPT_CONTENT = application/json
-    - CELERY_RESULT_SERIALIZER = json
-    - CELERY_TASK_SERIALIZER = json
+    - CELERY_BROKER_URL=redis://redis:6379/0
+    - CELERY_RESULT_BACKEND=redis://redis:6379/0
+
 
 services:
   api:
     container_name: api
-    command: python manage.py runserver
+    command: python manage.py runserver 0.0.0.0:8080
     build:
       context: .
       dockerfile: Dockerfile
@@ -48,8 +46,8 @@ services:
       - "6379:6379"
     volumes:
       - redis-data:/data
-    entrypoint: redis-server --appendonly yes
     restart: always
+
 
   celery:
     restart: always
