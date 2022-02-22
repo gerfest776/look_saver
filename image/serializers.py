@@ -1,10 +1,11 @@
 import io
-from PIL import Image as Im
+
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from PIL import Image as Im
 from rest_framework import serializers
 
-from look_collector.models import Image
 from image.tasks import size_reduce
+from look_collector.models import Image
 
 
 class ImageSerializer(serializers.ModelSerializer):

@@ -14,6 +14,11 @@ x-settings: &global
     - DB_PASSWORD=postgres
     - DB_HOST=database
     - DB_PORT=5432
+    - CELERY_BROKER_URL = redis://0.0.0.0:6379
+    - CELERY_RESULT_BACKEND = redis://0.0.0.0:6379
+    - CELERY_ACCEPT_CONTENT = application/json
+    - CELERY_RESULT_SERIALIZER = json
+    - CELERY_TASK_SERIALIZER = json
 
 services:
   api:
@@ -37,9 +42,14 @@ services:
     <<: *global
 
   redis:
-    image: redis:alpine
+    container_name: redis
+    image: redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis-data:/data
+    entrypoint: redis-server --appendonly yes
+    restart: always
 
   celery:
     restart: always
@@ -54,3 +64,4 @@ services:
 
 volumes:
   postgres_data:
+  redis-data:

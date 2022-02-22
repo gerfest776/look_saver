@@ -7,13 +7,12 @@ from look_collector.views import LookView
 
 router = DefaultRouter(trailing_slash=False)
 router.register("outfit", views.LookView)
-print(2)
 
 
 urlpatterns = [
     path("outfit", LookView.as_view({"post": "create"})),
-    # path("outfit/<pk>", LookView.as_view({"delete": "destroy"})),
-    path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path("outfit/<int:pk>", LookView.as_view({"delete": "destroy"})),
+    path('token', TokenObtainPairView.as_view(), name='token_obta   in_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh')
 ]
 
