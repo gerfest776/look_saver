@@ -108,11 +108,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATIC_ROOT = os.path.join(sys.path[0], "static")
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
+MEDIA_ROOT = os.path.join(sys.path[0], "media")
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 
 CELERY_BROKER_URL = config("CELERY_BROKER_URL")

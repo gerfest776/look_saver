@@ -76,7 +76,7 @@ class LookView(
         query_params = self.request.query_params.dict()
         obj = self.get_object()
         if not query_params:
-            obj.look_id.clear()
+            obj.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             for param in query_params.keys():
