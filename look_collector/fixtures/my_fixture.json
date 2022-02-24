@@ -1,0 +1,80 @@
+[
+  {
+    "model": "image.image",
+    "pk": 1,
+    "fields": {
+      "image": "LAUGH.jpg"
+    }
+  },
+  {
+    "model": "look_collector.user",
+    "pk": "2d401a06-66f1-461b-8abb-c665ab06858f",
+    "fields": {
+      "username": "user",
+      "password": "user",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true
+    }
+  },
+  {
+    "model": "look_collector.Outfit",
+    "pk": 1,
+    "fields": {
+      "owner_id": "2d401a06-66f1-461b-8abb-c665ab06858f",
+      "look_id": [1, 2, 3, 4]
+    }
+  },
+    {
+    "model": "look_collector.OutfitItem",
+    "pk": 1,
+    "fields": {
+      "type": "shoes",
+      "brand": "dc",
+      "price": 100.00,
+      "size": "M",
+      "color": "Black",
+      "link": "test.ru",
+      "image_id": 1
+    }
+  },
+    {
+    "model": "look_collector.OutfitItem",
+    "pk": 2,
+    "fields": {
+      "type": "top",
+      "brand": "dc",
+      "price": 120.00,
+      "size": "S",
+      "color": "Black",
+      "link": "test.ru",
+      "image_id": 1
+    }
+  },
+    {
+    "model": "look_collector.OutfitItem",
+    "pk": 3,
+    "fields": {
+      "type": "accessory",
+      "brand": "lv",
+      "price": 150.00,
+      "size": "S",
+      "color": "Black",
+      "link": "test.ru",
+      "image_id": 1
+    }
+  },
+    {
+    "model": "look_collector.OutfitItem",
+    "pk": 4,
+    "fields": {
+      "type": "pants",
+      "brand": "lv",
+      "price": 150.00,
+      "size": "S",
+      "color": "Black",
+      "link": "test.ru",
+      "image_id": 1
+    }
+  }
+]

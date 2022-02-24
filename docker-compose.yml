@@ -1,0 +1,81 @@
+version: '3.8'
+
+x-settings: &global
+  environment:
+    - ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+    - SECRET_KEY='django-insecure-j)rc7@f%y3dn1(+v0*@c-*zov6&af(3b315*qj8y^ujt%mv7ux'
+    - DEBUG=False
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_USER=postgres
+    - POSTGRES_DB=postgres
+    - PGDATA=/var/lib/postgresql/data
+    - DB_NAME=postgres
+    - DB_USER=postgres
+    - DB_PASSWORD=postgres
+    - DB_HOST=database
+    - DB_PORT=5432
+    - CELERY_BROKER_URL=redis://redis:6379/0
+    - CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+
+services:
+  api:
+    container_name: api
+    command: gunicorn look_saver.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8000
+
+    <<: *global
+    depends_on:
+      - database
+
+  database:
+    image: postgres:13.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    <<: *global
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: always
+
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A look_saver worker -l INFO
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+    <<: *global
+    depends_on:
+      - database
+      - redis
+      - api
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - ./static:/var/www/look/static
+      - ./media:/var/www/look/media
+    ports:
+      - 8000:80
+    depends_on:
+      - api
+volumes:
+  postgres_data:
+  redis-data:
