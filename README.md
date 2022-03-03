@@ -15,7 +15,6 @@
 
 Находясь в папке с файлом `docker-compose.yml` выполнить в терминале:
 
-	docker-compose build
 	docker-compose up
 
 ### <a name="launch-app"></a> Запуск тестов
